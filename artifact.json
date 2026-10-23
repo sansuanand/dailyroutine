@@ -1,0 +1,12 @@
+{
+  "url": "https://claude.ai/artifact/5T5d2EFUMrDgsitkw5eNuf",
+  "title": "Discipline Desk",
+  "source": "index.html",
+  "capabilities": {
+    "db": {},
+    "mcp": { "servers": [{ "server": "Google Calendar", "tools": ["list_events"] }] },
+    "sample": {},
+    "user": {}
+  },
+  "syncedFromVersion": "1792764217-440c"
+}
