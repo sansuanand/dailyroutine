@@ -152,13 +152,73 @@ textarea.field:focus { border-color: var(--accent); }
 .heat-legend i { width: 11px; height: 11px; border-radius: 2px; display: block; }
 .dow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; font-family: var(--mono); font-size: 10px; color: var(--muted); text-align: center; }
 
+/* Big three */
+.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+.tile { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 12px; align-items: center; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; cursor: pointer; min-width: 0; }
+.tile:hover { border-color: var(--muted); }
+.tile .tick { grid-row: span 2; width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; font-size: 14px; color: transparent; }
+.tile.done .tick { background: var(--good); border-color: var(--good); color: var(--surface); }
+.tile b { font-family: var(--display); font-stretch: 85%; font-size: 17px; font-weight: 700; }
+.tile .sub { font-size: 13px; color: var(--muted); min-width: 0; overflow-wrap: anywhere; }
+
+/* MCAT */
+.mtag { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; padding: 1px 6px; border-radius: 3px; background: var(--soft); color: var(--muted); }
+.meta { display: flex; gap: 6px 14px; flex-wrap: wrap; align-items: baseline; font-size: 13.5px; color: var(--muted); }
+.meta a, .hint a { color: var(--accent); }
+.flag { font-size: 13.5px; color: var(--signal); font-weight: 600; }
+.items { display: grid; }
+.item { display: flex; gap: 12px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid var(--soft); }
+.item:last-child { border-bottom: 0; }
+.item label { display: grid; min-width: 0; overflow-wrap: anywhere; cursor: pointer; }
+.item .k { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.item.done label span:last-child { color: var(--muted); text-decoration: line-through; }
+
+/* Case */
+.case-title { font-family: var(--display); font-size: 19px; font-weight: 700; font-stretch: 85%; }
+.case-prompt { margin: 0; font-size: 15.5px; }
+.qa { border: 1px solid var(--line); border-radius: 6px; }
+.qa details { border-top: 1px solid var(--soft); padding: 8px 12px; }
+.qa details:first-child { border-top: 0; }
+.qa summary { cursor: pointer; font-weight: 500; }
+.qa details p { margin: 6px 0 0; color: var(--muted); }
+.step { display: grid; gap: 8px; }
+.step-h { font-family: var(--mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.exhibit { overflow-x: auto; }
+.exhibit table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+.exhibit caption { text-align: left; font-weight: 600; padding-bottom: 6px; }
+.exhibit th, .exhibit td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.exhibit th { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.fb { display: grid; gap: 10px; background: var(--soft); border-radius: 6px; padding: 14px; }
+.fb h3 { font-size: 15px; font-weight: 700; }
+.fb ul { margin: 0; padding-left: 18px; }
+.fb p { margin: 0; }
+.grade { font-family: var(--display); font-stretch: 75%; font-size: 32px; font-weight: 700; line-height: 1; }
+
+/* Paper */
+.meter { height: 8px; border-radius: 4px; background: var(--soft); overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--good); width: 0; transition: width .4s ease; }
+.logrow { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.logrow label { display: grid; gap: 2px; }
+.secs { display: grid; }
+.sec { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--soft); font-size: 14px; }
+.sec:last-child { border-bottom: 0; }
+.sec span { overflow-wrap: anywhere; }
+.st { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; border: 1px solid var(--line); border-radius: 4px; padding: 3px 8px; background: var(--surface); cursor: pointer; color: var(--muted); min-width: 100px; }
+.st[data-s="1"], .st[data-s="2"] { color: var(--warn); border-color: var(--warn); }
+.st[data-s="3"] { color: var(--accent); border-color: var(--accent); }
+.st[data-s="4"] { color: var(--good); border-color: var(--good); }
+.runrow { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+select.field { width: auto; padding: 4px 2px; background: var(--surface); }
+
 .foot { margin-top: 28px; color: var(--muted); font-size: 12.5px; display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
 
 @media (max-width: 880px) {
   .board { grid-template-columns: minmax(0, 1fr); }
   .top { grid-template-columns: minmax(0, 1fr); }
 }
+@media (max-width: 640px) { .three { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 480px) {
+  .logrow { grid-template-columns: minmax(0, 1fr); }
   .timer { grid-template-columns: minmax(0, 1fr); }
   .slot { grid-template-columns: 74px minmax(0, 1fr); }
   .dots { display: none; }
@@ -188,6 +248,8 @@ textarea.field:focus { border-color: var(--accent); }
     <div class="syncnote" id="sync">Saved on this device</div>
   </div>
 
+  <section class="three" id="three" aria-label="Today's big three"></section>
+
   <main class="board">
     <div class="col">
       <section class="panel" aria-labelledby="h-morning">
@@ -195,6 +257,18 @@ textarea.field:focus { border-color: var(--accent); }
         <input class="field intention" id="intention" placeholder="Today I will…" maxlength="140" autocomplete="off">
         <div class="eyebrow">Top three · the day is a win if these are done</div>
         <div id="pris" style="display:grid;gap:6px"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="h-case" id="casepanel">
+        <div class="panel-h"><h2 id="h-case">Morning case</h2><span class="hint">About 25 minutes. Do it before 11:00.</span></div>
+        <div id="casebox" style="display:grid;gap:16px"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="h-mcat" id="mcatpanel">
+        <div class="panel-h"><h2 id="h-mcat">MCAT today</h2><span class="hint num" id="mcatcount"></span></div>
+        <div class="meta" id="mcatmeta"></div>
+        <div class="items" id="mcatitems"></div>
+        <div class="hint" id="mcatsrc"></div>
       </section>
 
       <section class="panel" aria-labelledby="h-sched">
@@ -218,6 +292,7 @@ textarea.field:focus { border-color: var(--accent); }
           <div class="clock" id="clock" aria-live="polite">50:00</div>
           <div class="timer-side">
             <div><span class="eyebrow" id="mode">Focus</span> <span class="hint" id="workingon"></span></div>
+            <label class="hint">Counts toward <select class="field" id="ftarget"><option value="pri">Top priority</option><option value="mcat">MCAT</option><option value="case">Morning case</option><option value="paper">RREB1 review</option></select></label>
             <div class="btns">
               <button class="btn primary" id="tstart" type="button">Start focus</button>
               <button class="btn" id="treset" type="button">Reset</button>
@@ -237,6 +312,25 @@ textarea.field:focus { border-color: var(--accent); }
     </div>
 
     <div class="col">
+      <section class="panel" aria-labelledby="h-paper" id="paperpanel">
+        <div class="panel-h"><h2 id="h-paper">RREB1 review</h2><a class="link" href="https://claude.ai/artifact/VKtBDQpdubVmhyA3Gs4Cgo" target="_blank" rel="noopener">Open the doc</a></div>
+        <div class="meta" id="papermeta"></div>
+        <div style="display:grid;gap:6px">
+          <div class="panel-h"><span class="eyebrow">Today</span><span class="hint num" id="papermin"></span></div>
+          <div class="meter"><i id="paperbar"></i></div>
+        </div>
+        <div class="btns"><button class="btn" type="button" data-add="15">+15 min</button><button class="btn" type="button" data-add="30">+30 min</button><button class="btn" type="button" data-add="-15" aria-label="Remove 15 minutes">−15</button></div>
+        <div class="logrow">
+          <label><span class="eyebrow">Words added</span><input class="field num" id="paperwords" type="number" min="0" inputmode="numeric" placeholder="0"></label>
+          <label><span class="eyebrow">Daily minimum (min)</span><input class="field num" id="papergoal" type="number" min="5" step="5" inputmode="numeric"></label>
+        </div>
+        <label class="eyebrow" for="papernote">What I moved forward</label>
+        <input class="field" id="papernote" maxlength="200" placeholder="Drafted the Jmjd3 paragraph, pulled two new refs…" autocomplete="off">
+        <div class="eyebrow">Sections</div>
+        <div class="secs" id="papersecs"></div>
+        <div class="runrow"><div class="dots" id="paperdots" aria-hidden="true"></div><span class="hint" id="paperrun"></span></div>
+      </section>
+
       <section class="panel" aria-labelledby="h-hab" id="habpanel">
         <div class="panel-h"><h2 id="h-hab">Non-negotiables</h2><button class="link" id="edithab" type="button">Edit</button></div>
         <div id="habits"></div>
@@ -265,10 +359,75 @@ textarea.field:focus { border-color: var(--accent); }
   </main>
 
   <footer class="foot">
-    <span>Score = 40% non-negotiables · 30% top three · 20% deep work · 10% evening review.</span>
+    <span>Score = 40% big three · 25% non-negotiables · 15% top three · 10% deep work · 10% evening review.</span>
     <span>A new page starts at midnight. Yesterday stays in the heatmap.</span>
   </footer>
 </div>
+
+<!-- MCAT plan, synced from the Mcat 2.0 artifact. Re-sync this block when that plan changes. -->
+<script type="application/json" id="mcat-plan">
+{
+  "source": "https://claude.ai/artifact/82ydXA23NpzgnRDB2ggDci",
+  "syncedAt": "2026-10-23",
+  "testDate": "2027-01-01",
+  "breaks": [["2026-09-10", "2026-09-15"], ["2026-10-30", "2026-11-01"], ["2026-11-25", "2026-11-27"]],
+  "daily": [
+    { "date": "2026-09-05", "activity": "01 Atomic Structure", "cards": 44, "note": "Protocol begins" },
+    { "date": "2026-09-06", "activity": "02 The Periodic Table", "cards": 28 },
+    { "date": "2026-09-07", "activity": "Review — re-drill misses from Atomic Structure & Periodic Table" },
+    { "date": "2026-09-08", "activity": "03 Bonding and Chemical Interactions", "cards": 68 },
+    { "date": "2026-09-09", "activity": "04 Compounds and Stoichiometry", "cards": 18 },
+    { "date": "2026-09-16", "activity": "Review — re-drill misses from Bonding & Stoichiometry, refresh after the break" },
+    { "date": "2026-09-17", "activity": "05 Chemical Kinetics", "cards": 55 },
+    { "date": "2026-09-18", "activity": "06 Equilibrium", "cards": 26 },
+    { "date": "2026-09-19", "activity": "Review — re-drill misses from Kinetics & Equilibrium" },
+    { "date": "2026-09-20", "activity": "07 Thermochemistry", "cards": 51 },
+    { "date": "2026-09-21", "activity": "08 The Gas Phase", "cards": 23 },
+    { "date": "2026-09-22", "activity": "09 Solutions", "cards": 49 },
+    { "date": "2026-09-23", "activity": "Review — re-drill misses from Thermochemistry, Gas Phase & Solutions" },
+    { "date": "2026-09-24", "activity": "10 Acids and Bases", "cards": 60 },
+    { "date": "2026-09-25", "activity": "11 Oxidation-Reduction Reactions", "cards": 18 },
+    { "date": "2026-09-26", "activity": "12 Electrochemistry", "cards": 30, "note": "All 12 Chemistry subdecks now complete (470 cards)" },
+    { "date": "2026-09-27", "activity": "Review — re-drill misses from Acids/Bases, Redox & Electrochemistry" },
+    { "date": "2026-09-28", "activity": "Cumulative Gen Chem practice — mixed 20+ Qs pulling from all 12 topics" },
+    { "date": "2026-09-29", "activity": "Buffer / catch-up day — flex for internship, TA, or sorority commitments; extra re-drill if needed" },
+    { "date": "2026-09-30", "activity": "Final Gen Chem synthesis review — skim every subdeck once more before moving on" },
+    { "date": "2026-10-01", "activity": "Essential Equations deck (111 cards) + MCAT Units subdeck (51 cards) — formula drill", "cards": 162 },
+    { "date": "2026-10-02", "activity": "01 Kinematics and Dynamics (Physics/Math deck)", "cards": 51, "note": "Physics I kickoff · last day before UWorld" }
+  ],
+  "weeks": [
+    { "week": "04", "ranges": [["2026-10-02", "2026-10-08"]], "section": "C/P", "title": "Physics I", "focus": "Physics I — kinematics, Newtonian mechanics, equilibrium & torque, work-energy-power, momentum", "uworld": "10 C/P questions, untimed", "cars": "2 timed passages", "anki": "~40 Physics/Math cards + 36 P/S cards", "note": "UWorld begins Oct 3" },
+    { "week": "05", "ranges": [["2026-10-09", "2026-10-15"]], "section": "C/P", "title": "Physics II", "focus": "Physics II — fluids, waves & sound, light & optics, electrostatics & circuits, atomic/nuclear phenomena", "uworld": "10 C/P questions", "cars": "2 timed passages", "anki": "~40 Physics/Math cards + 36 P/S cards" },
+    { "week": "06", "ranges": [["2026-10-16", "2026-10-22"]], "section": "C/P", "title": "Orgo/biochem bridge", "focus": "Orgo/biochem bridge — nomenclature & isomerism, separations (chromatography, extraction, distillation), spectroscopy (IR/NMR/UV-Vis), amino acid structure", "uworld": "10 + 5 C/P questions", "cars": "2 timed passages", "anki": "~44 Organic Chemistry cards + 36 P/S cards" },
+    { "week": "07", "ranges": [["2026-10-23", "2026-10-29"]], "section": "B/B", "title": "Biochem I", "focus": "Biochem I — protein structure (1°–4°), enzymes & kinetics, Michaelis-Menten & inhibition, carbohydrate structure", "uworld": "15 B/B + 8 C/P questions", "cars": "2 timed passages", "anki": "~47 Biochemistry cards + 36 P/S cards" },
+    { "week": "08", "ranges": [["2026-11-02", "2026-11-08"]], "section": "B/B", "title": "Biochem II", "focus": "Biochem II — bioenergetics: glycolysis, gluconeogenesis, TCA cycle, oxidative phosphorylation, lipid metabolism", "uworld": "15 B/B + 8 C/P questions", "cars": "2 timed passages", "anki": "~47 Biochemistry cards + 36 P/S cards" },
+    { "week": "09", "ranges": [["2026-11-09", "2026-11-15"]], "section": "B/B", "title": "Molecular biology & genetics", "focus": "Molecular biology & genetics — DNA/RNA structure & replication, transcription/translation, mutation & repair, PCR/cloning/electrophoresis, Mendelian & population genetics", "uworld": "15 B/B + 8 C/P questions", "cars": "2 timed passages", "anki": "~56 Biology cards + 36 P/S cards" },
+    { "week": "10", "ranges": [["2026-11-16", "2026-11-22"]], "section": "B/B", "title": "Bio systems I", "focus": "Bio systems I — cell biology & organelles, nervous system, endocrine system, cardiovascular & respiratory systems", "uworld": "15 B/B + 8 C/P questions", "cars": "2 timed passages", "anki": "~56 Biology cards + 36 P/S cards" },
+    { "week": "11", "ranges": [["2026-11-23", "2026-11-24"], ["2026-11-28", "2026-12-02"]], "section": "B/B", "title": "Bio systems II", "focus": "Bio systems II — immune, digestive, renal/excretory, musculoskeletal & skin, reproduction & embryonic development", "uworld": "15 B/B + 8 C/P questions", "cars": "2 timed passages", "anki": "~56 Biology cards + 36 P/S cards" },
+    { "week": "12", "ranges": [["2026-12-03", "2026-12-09"]], "section": "P/S", "title": "Psych/soc", "focus": "Psych/soc — sensation & perception, learning & memory, cognition, biological bases of behavior, motivation/emotion/personality, disorders, social psych, social structure & culture", "uworld": "15 P/S + 12 C/P + 12 B/B questions", "cars": "2 timed passages", "anki": "Clear the remaining P/S backlog + heavy practice" },
+    { "week": "13", "ranges": [["2026-12-10", "2026-12-15"]], "section": "MIX", "title": "Full-length 1", "focus": "AAMC Full-Length 1 (Thu) → thorough review & targeted re-drill, plus timed UWorld/CARS volume", "uworld": "25–30 C/P + B/B questions, timed", "cars": "3–4 timed passages", "anki": "Review only" },
+    { "week": "14", "ranges": [["2026-12-16", "2026-12-21"]], "section": "MIX", "title": "Full-length 2", "focus": "AAMC Full-Length 2 (Wed) → review → re-drill; continue timed UWorld/CARS volume", "uworld": "25–30 C/P + B/B questions, timed", "cars": "3–4 timed passages", "anki": "Review only" },
+    { "week": "15", "ranges": [["2026-12-22", "2026-12-27"]], "section": "MIX", "title": "Full-length 3", "focus": "AAMC Full-Length 3, final (Tue) → thorough review → light targeted review only past Dec 25; prioritize flagged & high-yield UWorld questions over raw completion", "uworld": "25–30 C/P + B/B questions, timed", "cars": "3–4 timed passages", "anki": "Review only" },
+    { "week": "T", "ranges": [["2026-12-28", "2026-12-31"]], "section": "TAPER", "title": "Taper", "focus": "Weak-tag Anki review, one rest day, logistics check, light skim — no new material", "uworld": "Flagged review only", "cars": "1 passage (none the last 2 days)", "anki": "Light review only" }
+  ],
+  "milestones": [
+    { "date": "2026-10-22", "label": "Chem/Phys first pass complete" },
+    { "date": "2026-12-02", "label": "Bio/Biochem first pass complete" },
+    { "date": "2026-12-09", "label": "Content review complete — enter exam cycle" }
+  ],
+  "fullLengths": [
+    { "date": "2026-12-10", "label": "AAMC Full-Length 1" },
+    { "date": "2026-12-16", "label": "AAMC Full-Length 2" },
+    { "date": "2026-12-22", "label": "AAMC Full-Length 3 (final)" }
+  ],
+  "taper": [
+    { "date": "2026-12-28", "title": "Light targeted review", "detail": "weak-tagged Anki cards only, 1 CARS passage, close out FL3 mistakes" },
+    { "date": "2026-12-29", "title": "Light review", "detail": "skim personal weak-topic sheet, 1 CARS passage" },
+    { "date": "2026-12-30", "title": "Full rest day", "detail": "no studying; confirm test center, ID, admission ticket, directions and testing-day rules" },
+    { "date": "2026-12-31", "title": "30-minute skim", "detail": "weak-topic sheet only; early to bed, no screens late" }
+  ]
+}
+</script>
 
 <script>
 (() => {
@@ -284,6 +443,28 @@ textarea.field:focus { border-color: var(--accent); }
     { id: "h-plan", name: "Plan tomorrow before bed" },
   ];
   const LENS = { 25: 5, 50: 10, 90: 15 };
+  const MCAT = (() => { try { return JSON.parse(document.getElementById("mcat-plan").textContent); } catch { return null; } })();
+  const PAPER = {
+    phases: [
+      { label: "Jmjd3 lit + tracker", start: "2026-10-15", end: "2026-10-21" },
+      { label: "Draft Background", start: "2026-10-22", end: "2026-10-28" },
+      { label: "Draft Introduction", start: "2026-10-26", end: "2026-10-30" },
+      { label: "Draft to Dr. Ishii", start: "2026-10-30", end: "2026-10-30", deadline: true },
+      { label: "Revise with feedback", start: "2026-11-02", end: "2026-11-13" },
+      { label: "Final Intro + Background", start: "2026-11-13", end: "2026-11-13", deadline: true },
+    ],
+    sections: [
+      { id: "intro", name: "Intro: AD metabolic changes → brown fat → RREB1 → aim" },
+      { id: "bvw", name: "Background: brown vs. white fat" },
+      { id: "rreb1", name: "Background: RREB1 biology" },
+      { id: "hist", name: "Background: histone marks and Jmjd3" },
+      { id: "bat", name: "Background: RREB1 in brown fat" },
+      { id: "open", name: "Background: open questions" },
+    ],
+  };
+  const STATUS = ["Not started", "Outlining", "Drafting", "Drafted", "Revised"];
+  const CASE_TYPES = ["Profitability", "Market entry", "Pricing", "M&A / acquisition", "Market sizing", "Growth strategy", "Cost reduction / operations", "New product launch"];
+  const INDUSTRIES = ["healthcare services", "consumer goods", "airlines", "retail", "pharmaceuticals", "fintech", "food delivery", "telecom", "hospitality", "medical devices", "automotive", "higher education", "energy", "media & streaming", "biotech", "logistics", "fitness"];
 
   let today = keyOf(new Date());
   let config = { habits: DEFAULT_HABITS, focusLen: 50, focusTarget: 4 };
@@ -295,8 +476,9 @@ textarea.field:focus { border-color: var(--accent); }
   const lsGet = (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } };
   const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
 
-  function blankDay(k) { return { date: k, intention: "", priorities: [{ text: "", done: false }, { text: "", done: false }, { text: "", done: false }], habits: {}, focus: 0, focusMinutes: 0, parking: [], review: { wins: "", improve: "", rating: 0, done: false }, plan: null, score: 0 }; }
-  function day() { if (!days[today]) days[today] = blankDay(today); return days[today]; }
+  function blankDay(k) { return { date: k, intention: "", priorities: [{ text: "", done: false }, { text: "", done: false }, { text: "", done: false }], habits: {}, focus: 0, focusMinutes: 0, parking: [], review: { wins: "", improve: "", rating: 0, done: false }, plan: null, score: 0, mcat: {}, case: null, paper: { minutes: 0, words: 0, note: "" } }; }
+  function fill(d) { if (!d.mcat) d.mcat = {}; if (d.case === undefined) d.case = null; if (!d.paper) d.paper = { minutes: 0, words: 0, note: "" }; return d; }
+  function day() { if (!days[today]) days[today] = blankDay(today); return fill(days[today]); }
 
   // ---------- persistence ----------
   const timers = {}, chains = {}, dirty = new Set();
@@ -354,7 +536,67 @@ textarea.field:focus { border-color: var(--accent); }
     const pDone = pr.length ? pr.filter((p) => p.done).length / pr.length : 0;
     const f = Math.min(1, (d.focus || 0) / (config.focusTarget || 4));
     const r = d.review && d.review.done ? 1 : 0;
-    return Math.round(100 * (0.4 * hDone + 0.3 * pDone + 0.2 * f + 0.1 * r));
+    const big = bigThree(fill(d), d.date);
+    const bDone = big.length ? big.filter((b) => b.done).length / big.length : 0;
+    return Math.round(100 * (0.4 * bDone + 0.25 * hDone + 0.15 * pDone + 0.1 * f + 0.1 * r));
+  }
+
+  // ---------- big three: MCAT, morning case, paper ----------
+  const parseDay = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  const inRange = (k, a, b) => k >= a && k <= b;
+  const daysBetween = (a, b) => Math.round((parseDay(b) - parseDay(a)) / 864e5);
+  const shortDate = (k) => parseDay(k).toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+
+  function mcatFor(k) {
+    if (!MCAT) return null;
+    if (k > MCAT.testDate) return { kind: "over", title: "MCAT plan complete", items: [] };
+    if (k === MCAT.testDate) return { kind: "test", title: "Test day", section: "TEST", items: [{ k: "Exam", t: "MCAT. Bring your ID and admission ticket. You've done the work." }] };
+    if (k < MCAT.daily[0].date) return { kind: "none", title: "The MCAT plan starts " + shortDate(MCAT.daily[0].date), items: [] };
+    if (MCAT.breaks.some(([a, b]) => inRange(k, a, b))) return { kind: "break", title: "Break — no studying", section: "BREAK", items: [] };
+    const tp = MCAT.taper.find((x) => x.date === k);
+    if (tp) return { kind: "taper", title: "Taper · " + tp.title, section: "TAPER", items: [{ k: "Taper", t: tp.title + ": " + tp.detail }] };
+    let out;
+    const dly = MCAT.daily.find((x) => x.date === k);
+    if (dly) {
+      const items = [];
+      if (/^\d{2} /.test(dly.activity)) {
+        items.push({ k: "Video", t: "Watch the topic video: " + dly.activity.slice(3) });
+        items.push({ k: "Anki", t: dly.activity + " subdeck · " + dly.cards + " cards" });
+      } else items.push({ k: /^Buffer/.test(dly.activity) ? "Flex" : "Study", t: dly.activity });
+      if (!/^Buffer/.test(dly.activity) && !/Qs/.test(dly.activity)) items.push({ k: "Practice", t: "20 practice questions" });
+      if (!/^Buffer/.test(dly.activity)) items.push({ k: "Review", t: "Review every miss" });
+      out = { kind: "daily", title: "Daily protocol", section: "C/P", items, note: dly.note || "" };
+    } else {
+      const w = MCAT.weeks.find((x) => x.ranges.some(([a, b]) => inRange(k, a, b)));
+      if (!w) return { kind: "none", title: "Nothing on the MCAT plan today", items: [] };
+      out = { kind: "week", title: "Week " + w.week + " · " + w.title, section: w.section, note: w.note || "",
+        items: [{ k: "Content", t: w.focus }, { k: "UWorld", t: w.uworld }, { k: "CARS", t: w.cars }, { k: "Anki", t: w.anki }] };
+    }
+    const fl = MCAT.fullLengths.find((x) => x.date === k);
+    if (fl) { out.items.unshift({ k: "Exam", t: fl.label + " under test conditions, then start the review" }); out.flag = fl.label + " today"; }
+    const ms = MCAT.milestones.find((x) => x.date === k);
+    if (ms) out.flag = (out.flag ? out.flag + " · " : "") + ms.label;
+    return out;
+  }
+  function studyDaysLeft(k) {
+    let n = 0; const d = parseDay(k), end = parseDay(MCAT.testDate);
+    while (d < end) { const s = keyOf(d); if (!MCAT.breaks.some(([a, b]) => inRange(s, a, b))) n++; d.setDate(d.getDate() + 1); }
+    return n;
+  }
+  const paperGoal = () => config.paperGoal || 45;
+  function caseSlot(k) { const n = Math.floor(parseDay(k) / 864e5); return { type: CASE_TYPES[n % CASE_TYPES.length], industry: INDUSTRIES[(n * 5) % INDUSTRIES.length] }; }
+
+  function bigThree(d, k) {
+    const out = [], m = mcatFor(k);
+    if (m && m.kind !== "over" && m.kind !== "none") {
+      const n = m.items.length, c = m.items.filter((_, i) => d.mcat[i]).length;
+      out.push({ id: "mcat", name: "MCAT", done: m.kind === "break" || (n > 0 && c === n), sub: m.kind === "break" ? "Break day. Rest counts." : c + " of " + n + " done · " + (m.section || "") });
+    }
+    const c = d.case;
+    out.push({ id: "case", name: "Morning case", done: !!(c && c.feedback), sub: c && c.feedback ? "Done · " + c.feedback.score + "/10" : c ? "In progress · " + c.type : "Not started · " + caseSlot(k).type });
+    const mins = d.paper.minutes || 0;
+    out.push({ id: "paper", name: "RREB1 review", done: mins >= paperGoal(), sub: mins + " of " + paperGoal() + " min" });
+    return out;
   }
   function scoreOf(k) { if (k === today) return score(day()); return days[k] ? days[k].score || 0 : null; }
   function streak() {
@@ -482,6 +724,188 @@ textarea.field:focus { border-color: var(--accent); }
     $("#avg").textContent = scores.length ? "avg " + Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) + " over " + scores.length + " logged days" : "Your first logged day starts the map";
   }
 
+  function renderThree() {
+    const box = $("#three"); box.textContent = "";
+    for (const b of bigThree(day(), today)) box.append(el("button", { type: "button", className: "tile" + (b.done ? " done" : ""),
+      on: { click: () => { const p = document.getElementById(b.id + "panel"); if (p) p.scrollIntoView({ behavior: "smooth", block: "start" }); } } },
+      [el("span", { className: "tick", "aria-hidden": "true", text: "✓" }), el("b", { text: b.name + (b.done ? " · done" : "") }), el("span", { className: "sub", text: b.sub })]));
+  }
+
+  function renderMcat() {
+    const m = mcatFor(today), d = day();
+    const meta = $("#mcatmeta"), box = $("#mcatitems");
+    meta.textContent = ""; box.textContent = "";
+    if (!m) { box.append(el("div", { className: "empty", text: "The MCAT plan didn't load." })); $("#mcatcount").textContent = ""; return; }
+    if (m.section) meta.append(el("span", { className: "mtag", text: m.section }));
+    meta.append(el("span", { text: m.title }));
+    if (m.kind !== "over") meta.append(el("span", { className: "num", text: studyDaysLeft(today) + " study days to test day" }));
+    if (m.flag) meta.append(el("span", { className: "flag", text: m.flag }));
+    else if (m.note) meta.append(el("span", { className: "flag", text: m.note }));
+    if (!m.items.length) box.append(el("div", { className: "empty", text: m.kind === "break" ? "Rest day on your plan. It counts as done." : m.title }));
+    m.items.forEach((it, i) => {
+      const done = !!d.mcat[i];
+      box.append(el("div", { className: "item" + (done ? " done" : "") }, [
+        el("input", { type: "checkbox", className: "check", id: "mc-" + i, checked: done, on: { change: (e) => { day().mcat[i] = e.target.checked; saveDay(0); renderAll(); } } }),
+        el("label", { htmlFor: "mc-" + i }, [el("span", { className: "k", text: it.k }), el("span", { text: it.t })]),
+      ]));
+    });
+    $("#mcatcount").textContent = m.items.length ? m.items.filter((_, i) => d.mcat[i]).length + " of " + m.items.length : "";
+    const src = $("#mcatsrc"); src.textContent = "";
+    src.append("From your ", el("a", { href: MCAT.source, target: "_blank", rel: "noopener", text: "Mcat 2.0 plan" }), " · synced " + shortDate(MCAT.syncedAt) + ". The list changes each day.");
+  }
+
+  // ---------- morning case ----------
+  const str = (v, n) => (typeof v === "string" ? v.slice(0, n) : "");
+  function cleanCase(r) {
+    if (!r || typeof r.prompt !== "string") return null;
+    const ex = r.exhibit && Array.isArray(r.exhibit.columns) && Array.isArray(r.exhibit.rows)
+      ? { title: str(r.exhibit.title, 140), columns: r.exhibit.columns.slice(0, 6).map((c) => String(c).slice(0, 40)), rows: r.exhibit.rows.filter(Array.isArray).slice(0, 10).map((row) => row.slice(0, 6).map((c) => String(c).slice(0, 60))) }
+      : null;
+    return {
+      title: str(r.title, 120) || "Today's case", prompt: str(r.prompt, 1200),
+      clarifying: (Array.isArray(r.clarifying) ? r.clarifying : []).slice(0, 5).map((x) => ({ q: str(x && x.q, 200), a: str(x && x.a, 500) })).filter((x) => x.q),
+      exhibit: ex, mathQuestion: str(r.mathQuestion, 400), mathAnswer: str(r.mathAnswer, 400), keyInsight: str(r.keyInsight, 400),
+      idealFramework: (Array.isArray(r.idealFramework) ? r.idealFramework : []).slice(0, 6).map((x) => String(x).slice(0, 260)),
+    };
+  }
+  function errText(e, fallback) {
+    if (e && e.code === "not_granted") return "Claude is turned off for this page.";
+    if (e && e.code === "rate_limited") return "Too many requests. Wait a minute and try again.";
+    return (e && e.message) || fallback;
+  }
+  async function getSample() { if (!sample) sample = window.claude && window.claude.use ? await window.claude.use("sample") : null; return sample; }
+  let caseBusy = "", caseErr = "", caseKey = "";
+  async function newCase() {
+    const s = await getSample();
+    if (!s) { caseErr = "Cases need this page open in claude.ai."; renderCase(); return; }
+    const slot = caseSlot(today);
+    const recent = Object.values(days).filter((v) => v.case && v.case.title && v.date !== today).sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 10).map((v) => "- " + v.case.title);
+    const prompt = [
+      "You are a McKinsey/BCG-style case interviewer writing one practice case for a student who does a consulting case every morning.",
+      "Case type: " + slot.type + ". Industry: " + slot.industry + ". The client and numbers are fictional but realistic.",
+      recent.length ? "Do not repeat these recent cases:\n" + recent.join("\n") : "",
+      "Make it doable in about 25 minutes: one clear question, 3-4 clarifying questions a strong candidate would ask with the interviewer's answers, one exhibit (a small table, 3-6 rows) holding the data for one calculation, and that calculation.",
+      'Reply with JSON only: {"title":"short case name","prompt":"2-4 sentences: the client, the situation, and the question the CEO asks","clarifying":[{"q":"...","a":"..."}],"exhibit":{"title":"...","columns":["..."],"rows":[["..."]]},"mathQuestion":"one calculation that uses the exhibit","mathAnswer":"the number with units, then one line of working","keyInsight":"what the math means for the recommendation","idealFramework":["bucket: 2-3 sub-questions"]}',
+    ].filter(Boolean).join("\n\n");
+    caseBusy = "Writing today's case…"; caseErr = ""; renderCase();
+    try {
+      const c = cleanCase(await s.json(prompt, { modelTier: "default", cache: false }));
+      if (!c) throw { message: "The case came back in an unexpected shape. Try again." };
+      day().case = { ...c, type: slot.type, industry: slot.industry, framework: "", math: "", rec: "", feedback: null };
+      saveDay(0);
+    } catch (e) { caseErr = errText(e, "Couldn't write a case. Try again."); }
+    caseBusy = ""; renderAll();
+  }
+  async function gradeCase() {
+    const s = await getSample(), c = day().case;
+    if (!c) return;
+    if (!s) { caseErr = "Feedback needs this page open in claude.ai."; renderCase(); return; }
+    const prompt = [
+      "You are a tough but fair case interviewer at a top consulting firm giving feedback on a practice case. Be specific and brief.",
+      "Case: " + c.title + " (" + c.type + ", " + c.industry + ")\n" + c.prompt,
+      "Exhibit: " + JSON.stringify(c.exhibit),
+      "Math question: " + c.mathQuestion + "\nCorrect answer: " + c.mathAnswer,
+      "Key insight: " + c.keyInsight,
+      "Reference framework:\n" + c.idealFramework.map((x) => "- " + x).join("\n"),
+      "Candidate's framework:\n" + (c.framework || "(blank)"),
+      "Candidate's math:\n" + (c.math || "(blank)"),
+      "Candidate's recommendation:\n" + (c.rec || "(blank)"),
+      'Grade structure, math and synthesis. Reply with JSON only: {"score":1-10,"verdict":"one sentence overall","worked":["..."],"fix":["..."],"mathCorrect":true,"modelRecommendation":"a crisp answer-first recommendation in 3 sentences","drill":"one thing to practice tomorrow"}',
+    ].join("\n\n");
+    caseBusy = "Grading…"; caseErr = ""; renderCase();
+    try {
+      const r = await s.json(prompt, { modelTier: "default", cache: false });
+      if (!r || typeof r.verdict !== "string") throw { message: "The feedback came back in an unexpected shape. Try again." };
+      const list = (v) => (Array.isArray(v) ? v : []).slice(0, 5).map((x) => String(x).slice(0, 300));
+      c.feedback = { score: Math.max(1, Math.min(10, Math.round(Number(r.score) || 1))), verdict: str(r.verdict, 300), worked: list(r.worked), fix: list(r.fix),
+        mathCorrect: r.mathCorrect === true, modelRecommendation: str(r.modelRecommendation, 800), drill: str(r.drill, 300) };
+      saveDay(0);
+    } catch (e) { caseErr = errText(e, "Couldn't grade the case. Try again."); }
+    caseBusy = ""; renderAll();
+  }
+  function caseField(label, key, ph, rows) {
+    const ta = el("textarea", { className: "field", id: "case-" + key, placeholder: ph, rows: rows || 4, on: { input: (e) => { day().case[key] = e.target.value; saveDay(); } } });
+    ta.value = day().case[key] || "";
+    return el("label", { className: "step", htmlFor: "case-" + key }, [el("span", { className: "step-h", text: label }), ta]);
+  }
+  function listBlock(title, items) { return items.length ? el("div", {}, [el("h3", { text: title }), el("ul", {}, items.map((t) => el("li", { text: t })))]) : null; }
+  function renderCase() {
+    const c = day().case, key = today + "|" + (c ? c.title + (c.feedback ? "|fb" : "") : "none") + "|" + caseBusy + "|" + caseErr;
+    if (key === caseKey) { if (c) ["framework", "math", "rec"].forEach((k) => { const n = document.getElementById("case-" + k); if (n) setVal(n, c[k] || ""); }); return; }
+    caseKey = key;
+    const box = $("#casebox"); box.textContent = "";
+    if (!c) {
+      const slot = caseSlot(today);
+      box.append(el("div", { className: "meta" }, [el("span", { className: "mtag", text: slot.type }), el("span", { text: "Industry: " + slot.industry })]));
+      box.append(el("div", { className: "btns" }, [el("button", { className: "btn primary", type: "button", text: caseBusy || "Start today's case", disabled: !!caseBusy, on: { click: newCase } })]));
+    } else {
+      box.append(el("div", { style: "display:grid;gap:6px" }, [
+        el("div", { className: "meta" }, [el("span", { className: "mtag", text: c.type }), el("span", { text: c.industry })]),
+        el("div", { className: "case-title", text: c.title }), el("p", { className: "case-prompt", text: c.prompt })]));
+      if (c.clarifying.length) box.append(el("div", { className: "step" }, [el("span", { className: "step-h", text: "1 · Clarify — ask first, then open" }),
+        el("div", { className: "qa" }, c.clarifying.map((x) => el("details", {}, [el("summary", { text: x.q }), el("p", { text: x.a })])))]));
+      box.append(caseField("2 · Structure — your framework", "framework", "Buckets, and the questions under each…", 5));
+      if (c.exhibit || c.mathQuestion) {
+        const kids = [el("span", { className: "step-h", text: "3 · Crunch" })];
+        if (c.exhibit) kids.push(el("div", { className: "exhibit" }, el("table", {}, [el("caption", { text: c.exhibit.title }),
+          el("thead", {}, el("tr", {}, c.exhibit.columns.map((t) => el("th", { text: t })))),
+          el("tbody", {}, c.exhibit.rows.map((r) => el("tr", {}, r.map((t) => el("td", { text: t })))))])));
+        if (c.mathQuestion) kids.push(el("div", { text: c.mathQuestion }));
+        box.append(el("div", { className: "step" }, kids));
+        box.append(caseField("Your math", "math", "Show the setup and the answer…", 2));
+      }
+      box.append(caseField("4 · Recommend — answer first", "rec", "The client should… because… Risks… Next steps…", 3));
+      if (!c.feedback) box.append(el("div", { className: "btns" }, [el("button", { className: "btn primary", type: "button", text: caseBusy || "Get feedback", disabled: !!caseBusy, on: { click: gradeCase } })]));
+      else {
+        const f = c.feedback;
+        box.append(el("div", { className: "fb" }, [
+          el("div", { style: "display:flex;gap:12px;align-items:baseline;flex-wrap:wrap" }, [el("span", { className: "grade", text: f.score + "/10" }), el("span", { text: f.verdict })]),
+          listBlock("What worked", f.worked), listBlock("Fix next time", f.fix),
+          el("div", {}, [el("h3", { text: "Math · " + (f.mathCorrect ? "correct" : "check this") }), el("p", { text: c.mathAnswer })]),
+          listBlock("Strong framework", c.idealFramework),
+          el("div", {}, [el("h3", { text: "Model recommendation" }), el("p", { text: f.modelRecommendation })]),
+          f.drill ? el("div", {}, [el("h3", { text: "Drill tomorrow" }), el("p", { text: f.drill })]) : null,
+        ]));
+      }
+    }
+    if (caseErr) box.append(el("div", { className: "alert", text: caseErr }));
+  }
+
+  // ---------- paper ----------
+  function renderPaper() {
+    const p = day().paper, goal = paperGoal(), mins = p.minutes || 0;
+    const meta = $("#papermeta"); meta.textContent = "";
+    const next = PAPER.phases.find((x) => x.deadline && x.end >= today);
+    if (next) { const n = daysBetween(today, next.end); meta.append(el("span", { className: "flag", text: next.label + " · " + shortDate(next.end) + " · " + (n === 0 ? "today" : n === 1 ? "tomorrow" : "in " + n + " days") })); }
+    else meta.append(el("span", { text: "Every planned deadline has passed. Ask Claude to add the next ones." }));
+    const now = PAPER.phases.filter((x) => !x.deadline && inRange(today, x.start, x.end));
+    for (const x of now) meta.append(el("span", { className: "mtag", text: x.label }));
+    if (!now.length && next) meta.append(el("span", { text: "Between phases. Keep drafting." }));
+    $("#papermin").textContent = mins + " / " + goal + " min";
+    $("#paperbar").style.width = Math.min(100, (100 * mins) / goal) + "%";
+    setVal($("#paperwords"), p.words ? String(p.words) : "");
+    setVal($("#papergoal"), String(goal));
+    setVal($("#papernote"), p.note || "");
+    const st = config.paperSections || {}, secs = $("#papersecs"); secs.textContent = "";
+    for (const s of PAPER.sections) {
+      const v = st[s.id] || 0;
+      secs.append(el("div", { className: "sec" }, [el("span", { text: s.name }),
+        el("button", { className: "st", type: "button", "data-s": v, text: STATUS[v], "aria-label": s.name + ": " + STATUS[v] + ". Tap to advance.",
+          on: { click: () => { config.paperSections = { ...(config.paperSections || {}), [s.id]: (v + 1) % STATUS.length }; saveConfig(); renderPaper(); } } })]));
+    }
+    const dots = $("#paperdots"); dots.textContent = "";
+    let run = 0, counting = true;
+    for (let i = 0; i <= 13; i++) {
+      const dd = new Date(); dd.setDate(dd.getDate() - i);
+      const v = i === 0 ? day() : days[keyOf(dd)];
+      const on = !!(v && v.paper && v.paper.minutes >= goal);
+      if (counting) { if (on) run++; else if (i > 0) counting = false; }
+      dots.prepend(el("i", { className: on ? "on" : "" }));
+    }
+    $("#paperrun").textContent = run ? run + "-day run of hitting your minimum" : "Hit your minimum today to start a run.";
+  }
+  function addPaper(n) { const p = day().paper; p.minutes = Math.max(0, (p.minutes || 0) + n); saveDay(0); renderAll(); }
+
   // ---------- schedule ----------
   const hm = (d) => pad(d.getHours()) + ":" + pad(d.getMinutes());
   function atToday(hhmm) { const [h, m] = hhmm.split(":").map(Number); const d = new Date(); d.setHours(h, m, 0, 0); return d; }
@@ -519,7 +943,15 @@ textarea.field:focus { border-color: var(--accent); }
     const cur = timed.find((b) => b.start <= now && b.end > now);
     const nxt = timed.find((b) => b.start > now);
     const firstOpen = day().priorities.find((p) => p.text && !p.done);
-    $("#nowtxt").textContent = cur ? cur.label + " (until " + hm(cur.end) + ")" : firstOpen ? "Work on: " + firstOpen.text : day().priorities.some((p) => p.text) ? "Top three done. Protect the rest of your habits." : "Set your top three, then start a focus block.";
+    const big = bigThree(day(), today), open = (id) => big.find((b) => b.id === id && !b.done);
+    const m = mcatFor(today), mNext = m && m.items.find((_, i) => !day().mcat[i]);
+    $("#nowtxt").textContent = cur ? cur.label + " (until " + hm(cur.end) + ")"
+      : now.getHours() < 12 && open("case") ? "Morning case first: " + (day().case ? day().case.title : caseSlot(today).type + " case")
+      : firstOpen ? "Work on: " + firstOpen.text
+      : open("mcat") && mNext ? "MCAT: " + mNext.k + " · " + mNext.t
+      : open("paper") ? "RREB1 review: " + (paperGoal() - day().paper.minutes) + " more minutes"
+      : open("case") ? "Today's case is still open."
+      : day().priorities.some((p) => p.text) ? "Big three and top three done. Protect the rest of your habits." : "Set your top three, then start a focus block.";
     $("#nexttxt").textContent = nxt ? hm(nxt.start) + " · " + nxt.label : "Nothing else scheduled";
   }
 
@@ -579,12 +1011,19 @@ textarea.field:focus { border-color: var(--accent); }
     const pri = d.priorities.filter((p) => p.text && !p.done).map((p, i) => (i + 1) + ". " + p.text);
     const cal = events.map((e) => e.allDay ? "- All day: " + e.label : "- " + hm(e.start) + "–" + hm(e.end) + ": " + e.label);
     const left = config.habits.filter((h) => !d.habits[h.id]).map((h) => "- " + h.name);
+    const big = bigThree(d, today), isOpen = (id) => big.some((b) => b.id === id && !b.done);
+    const m = mcatFor(today), mLeft = m ? m.items.filter((_, i) => !d.mcat[i]).map((it) => it.k + ": " + it.t) : [];
+    const musts = [];
+    if (isOpen("case")) musts.push("- Consulting practice case, 30 minutes, before 11:00");
+    if (isOpen("mcat") && mLeft.length) musts.push("- MCAT (" + m.title + "), split into sensible blocks:\n  " + mLeft.join("\n  "));
+    if (isOpen("paper")) musts.push("- RREB1 review paper: " + (paperGoal() - d.paper.minutes) + " more minutes of writing (" + (PAPER.phases.filter((x) => !x.deadline && inRange(today, x.start, x.end)).map((x) => x.label).join(", ") || "drafting") + ")");
     const prompt = [
       "You are a strict, practical daily planner for a student who wants to stay focused and disciplined.",
       "It is now " + hm(now) + " on " + now.toDateString() + ". Plan from the next quarter hour until 22:30.",
       "Today's intention: " + (d.intention || "(none)"),
       "Unfinished top priorities, most important first:\n" + (pri.join("\n") || "(none set — schedule a 15-minute block to decide them)"),
       "Fixed calendar events (do not overlap these):\n" + (cal.join("\n") || "(none)"),
+      "Daily must-dos still open (each needs its own block; these come before anything optional):\n" + (musts.join("\n") || "(all done)"),
       "Habits not yet done today:\n" + (left.join("\n") || "(all done)"),
       "Rules: deep-work blocks are " + config.focusLen + " minutes followed by a " + LENS[config.focusLen] + "-minute break. Put priority #1 in the earliest deep-work slot. Slot each remaining habit at a sensible time. Include meals. End with a 10-minute evening review. Use 24-hour HH:MM times. Do not include the fixed calendar events in your blocks.",
       'Reply with JSON only: {"blocks":[{"start":"HH:MM","end":"HH:MM","label":"short action-oriented label","kind":"focus|habit|break|admin|review"}],"note":"one blunt sentence of coaching for today"}',
@@ -619,8 +1058,12 @@ textarea.field:focus { border-color: var(--accent); }
   let wake = null;
   async function holdWake(on) { try { if (on && navigator.wakeLock && !wake) wake = await navigator.wakeLock.request("screen"); else if (!on && wake) { await wake.release(); wake = null; } } catch {} }
   function finish(auto) {
-    if (T.mode === "focus") { const d = day(); d.focus = (d.focus || 0) + 1; d.focusMinutes = (d.focusMinutes || 0) + config.focusLen; saveDay(0); }
-    T = { mode: T.mode === "focus" ? "break" : "focus", running: false, endsAt: 0, remaining: 0 };
+    if (T.mode === "focus") {
+      const d = day(); d.focus = (d.focus || 0) + 1; d.focusMinutes = (d.focusMinutes || 0) + config.focusLen;
+      if (T.target === "paper") d.paper.minutes = (d.paper.minutes || 0) + config.focusLen;
+      saveDay(0); renderAll();
+    }
+    T = { mode: T.mode === "focus" ? "break" : "focus", running: false, endsAt: 0, remaining: 0, target: T.target };
     T.remaining = lenFor(T.mode);
     if (auto) beep();
     holdWake(false);
@@ -628,7 +1071,10 @@ textarea.field:focus { border-color: var(--accent); }
   }
   function renderWorkingOn() {
     const p = day().priorities.find((x) => x.text && !x.done);
-    $("#workingon").textContent = T.mode === "focus" ? (p ? "on: " + p.text : "") : "stand up, water, eyes off screens";
+    const m = mcatFor(today), mNext = m && m.items.find((_, i) => !day().mcat[i]);
+    const on = { pri: p ? p.text : "", mcat: mNext ? "MCAT · " + mNext.k : "MCAT", case: "today's case", paper: "RREB1 review (minutes count automatically)" }[T.target || "pri"];
+    $("#workingon").textContent = T.mode === "focus" ? (on ? "on: " + on : "") : "stand up, water, eyes off screens";
+    setVal($("#ftarget"), T.target || "pri");
   }
   function renderTimer() {
     const r = remaining();
@@ -666,15 +1112,20 @@ textarea.field:focus { border-color: var(--accent); }
     else { T.endsAt = Date.now() + remaining() * 1000; T.running = true; holdWake(true); try { audio = audio || new (window.AudioContext || window.webkitAudioContext)(); } catch {} }
     lsSet("dd:timer", T); renderTimer();
   });
-  $("#treset").addEventListener("click", () => { T = { mode: T.mode, running: false, endsAt: 0, remaining: lenFor(T.mode) }; holdWake(false); lsSet("dd:timer", T); renderTimer(); });
-  $("#tskip").addEventListener("click", () => { T = { mode: T.mode === "focus" ? "break" : "focus", running: false, endsAt: 0, remaining: 0 }; T.remaining = lenFor(T.mode); holdWake(false); lsSet("dd:timer", T); renderTimer(); });
+  $("#ftarget").addEventListener("change", (e) => { T.target = e.target.value; lsSet("dd:timer", T); renderWorkingOn(); });
+  document.querySelectorAll("[data-add]").forEach((b) => b.addEventListener("click", () => addPaper(Number(b.dataset.add))));
+  $("#paperwords").addEventListener("input", (e) => { day().paper.words = Math.max(0, parseInt(e.target.value, 10) || 0); saveDay(); });
+  $("#papernote").addEventListener("input", (e) => { day().paper.note = e.target.value; saveDay(); });
+  $("#papergoal").addEventListener("change", (e) => { const v = parseInt(e.target.value, 10); config.paperGoal = v >= 5 ? Math.min(600, v) : 45; saveConfig(); saveDay(0); renderAll(); });
+  $("#treset").addEventListener("click", () => { T = { mode: T.mode, running: false, endsAt: 0, remaining: lenFor(T.mode), target: T.target }; holdWake(false); lsSet("dd:timer", T); renderTimer(); });
+  $("#tskip").addEventListener("click", () => { T = { mode: T.mode === "focus" ? "break" : "focus", running: false, endsAt: 0, remaining: 0, target: T.target }; T.remaining = lenFor(T.mode); holdWake(false); lsSet("dd:timer", T); renderTimer(); });
   document.querySelectorAll(".seg button").forEach((b) => b.addEventListener("click", () => {
     config.focusLen = Number(b.dataset.len); saveConfig();
     if (!T.running) { T.remaining = lenFor(T.mode); lsSet("dd:timer", T); }
     renderTimer();
   }));
 
-  function renderAll() { renderHeader(); renderPriorities(); renderHabits(); renderPark(); renderReview(); renderHeat(); renderTimeline(); renderTimer(); }
+  function renderAll() { renderHeader(); renderThree(); renderPriorities(); renderCase(); renderMcat(); renderPaper(); renderHabits(); renderPark(); renderReview(); renderHeat(); renderTimeline(); renderTimer(); }
 
   loadLocal();
   if (!T.running && !T.remaining) T.remaining = lenFor(T.mode);
