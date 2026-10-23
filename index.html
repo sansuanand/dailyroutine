@@ -73,6 +73,7 @@ textarea.field:focus { border-color: var(--accent); }
 
 /* Checklist rows */
 .check { appearance: none; width: 22px; height: 22px; flex: none; border: 2px solid var(--muted); border-radius: 5px; display: grid; place-items: center; cursor: pointer; background: var(--surface); }
+.check:disabled { cursor: default; }
 .check:checked { background: var(--accent); border-color: var(--accent); }
 .check:checked::after { content: ""; width: 6px; height: 11px; border: solid var(--accent-ink); border-width: 0 2.5px 2.5px 0; transform: translateY(-1px) rotate(45deg); }
 .pri { display: flex; align-items: center; gap: 12px; }
@@ -435,8 +436,9 @@ select.field { width: auto; padding: 4px 2px; background: var(--surface); }
   const pad = (n) => String(n).padStart(2, "0");
   const keyOf = (d) => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
   const DEFAULT_HABITS = [
-    { id: "h-wake", name: "Up by 7:00, no snooze" },
-    { id: "h-phone", name: "No phone for the first hour" },
+    { id: "h-wake", name: "Up by 4:30, no snooze" },
+    { id: "h-gym", name: "Go to the gym" },
+    { id: "h-focus1", name: "At least one focus block" },
     { id: "h-move", name: "Move 30 minutes" },
     { id: "h-read", name: "Read 20 pages" },
     { id: "h-water", name: "2 L of water" },
@@ -499,8 +501,21 @@ select.field { width: auto; padding: 4px 2px; background: var(--surface); }
   function saveConfig() { save("config", config, 200); }
   function setSync(t) { $("#sync").textContent = t; }
 
+  // One-time habit update for lists saved before the change: 4:30 wake-up, gym instead of the phone rule,
+  // and a daily focus block that ticks itself.
+  function migrateHabits() {
+    if ((config.habitsRev || 0) >= 3) return false;
+    let hs = config.habits.filter((h) => h.id !== "h-phone").map((h) => (h.id === "h-wake" ? { ...h, name: "Up by 4:30, no snooze" } : h));
+    const after = (id, h) => { if (hs.some((x) => x.id === h.id)) return; const i = hs.findIndex((x) => x.id === id) + 1; hs = [...hs.slice(0, i), h, ...hs.slice(i)]; };
+    after("h-wake", { id: "h-gym", name: "Go to the gym" });
+    after("h-gym", { id: "h-focus1", name: "At least one focus block" });
+    config = { ...config, habits: hs, habitsRev: 3 };
+    return true;
+  }
+
   function loadLocal() {
     const c = lsGet("dd:config"); if (c && Array.isArray(c.habits)) config = { ...config, ...c };
+    if (migrateHabits()) lsSet("dd:config", config);
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
@@ -521,7 +536,7 @@ select.field { width: auto; padding: 4px 2px; background: var(--surface); }
       for (const doc of snap.docs) {
         if (dirty.has(doc.id) || !doc.exists) continue;
         const v = doc.data();
-        if (doc.id === "config") { config = { ...config, ...structuredClone(v) }; lsSet("dd:config", config); }
+        if (doc.id === "config") { config = { ...config, ...structuredClone(v) }; if (migrateHabits()) saveConfig(); lsSet("dd:config", config); }
         else if (doc.id.startsWith("day-") && v.date) { days[v.date] = structuredClone(v); lsSet("dd:" + doc.id, v); }
       }
       renderAll();
@@ -667,6 +682,8 @@ select.field { width: auto; padding: 4px 2px; background: var(--surface); }
     $("#habpanel").classList.toggle("editing", editingHabits);
     if (!config.habits.length) box.append(el("div", { className: "empty", text: "No habits yet. Tap Edit to add the ones you refuse to skip." }));
     for (const h of config.habits) {
+      const auto = h.id === "h-focus1";
+      if (auto) day().habits[h.id] = (day().focus || 0) >= 1;
       const done = !!day().habits[h.id];
       const dots = el("div", { className: "dots", "aria-hidden": "true" });
       for (let i = 13; i >= 0; i--) {
@@ -676,7 +693,7 @@ select.field { width: auto; padding: 4px 2px; background: var(--surface); }
       }
       const run = habitRun(h.id);
       box.append(el("div", { className: "habit" + (done ? " done" : "") }, [
-        el("input", { type: "checkbox", className: "check", checked: done, id: "hab-" + h.id, on: { change: (e) => { day().habits[h.id] = e.target.checked; saveDay(0); renderAll(); } } }),
+        el("input", { type: "checkbox", className: "check", checked: done, disabled: auto, title: auto ? "Ticks itself when you finish a focus block" : "", id: "hab-" + h.id, on: { change: (e) => { day().habits[h.id] = e.target.checked; saveDay(0); renderAll(); } } }),
         el("label", { className: "name", htmlFor: "hab-" + h.id, text: h.name }),
         dots,
         el("span", { className: "hs", text: run ? run + "d" : "–", title: "Current run" }),
@@ -947,6 +964,7 @@ select.field { width: auto; padding: 4px 2px; background: var(--surface); }
     const m = mcatFor(today), mNext = m && m.items.find((_, i) => !day().mcat[i]);
     $("#nowtxt").textContent = cur ? cur.label + " (until " + hm(cur.end) + ")"
       : now.getHours() < 12 && open("case") ? "Morning case first: " + (day().case ? day().case.title : caseSlot(today).type + " case")
+      : now.getHours() >= 15 && !(day().focus || 0) ? "No focus block yet today. Start one now, even 25 minutes."
       : firstOpen ? "Work on: " + firstOpen.text
       : open("mcat") && mNext ? "MCAT: " + mNext.k + " · " + mNext.t
       : open("paper") ? "RREB1 review: " + (paperGoal() - day().paper.minutes) + " more minutes"
@@ -1059,7 +1077,7 @@ select.field { width: auto; padding: 4px 2px; background: var(--surface); }
   async function holdWake(on) { try { if (on && navigator.wakeLock && !wake) wake = await navigator.wakeLock.request("screen"); else if (!on && wake) { await wake.release(); wake = null; } } catch {} }
   function finish(auto) {
     if (T.mode === "focus") {
-      const d = day(); d.focus = (d.focus || 0) + 1; d.focusMinutes = (d.focusMinutes || 0) + config.focusLen;
+      const d = day(); d.focus = (d.focus || 0) + 1; d.focusMinutes = (d.focusMinutes || 0) + config.focusLen; d.habits["h-focus1"] = true;
       if (T.target === "paper") d.paper.minutes = (d.paper.minutes || 0) + config.focusLen;
       saveDay(0); renderAll();
     }
