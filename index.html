@@ -439,7 +439,6 @@ select.field { width: auto; padding: 4px 2px; background: var(--surface); }
     { id: "h-wake", name: "Up by 4:30, no snooze" },
     { id: "h-gym", name: "Go to the gym" },
     { id: "h-focus1", name: "At least one focus block" },
-    { id: "h-move", name: "Move 30 minutes" },
     { id: "h-read", name: "Read 20 pages" },
     { id: "h-water", name: "2 L of water" },
     { id: "h-plan", name: "Plan tomorrow before bed" },
@@ -502,14 +501,14 @@ select.field { width: auto; padding: 4px 2px; background: var(--surface); }
   function setSync(t) { $("#sync").textContent = t; }
 
   // One-time habit update for lists saved before the change: 4:30 wake-up, gym instead of the phone rule,
-  // and a daily focus block that ticks itself.
+  // a daily focus block that ticks itself, and the gym replacing "Move 30 minutes".
   function migrateHabits() {
-    if ((config.habitsRev || 0) >= 3) return false;
-    let hs = config.habits.filter((h) => h.id !== "h-phone").map((h) => (h.id === "h-wake" ? { ...h, name: "Up by 4:30, no snooze" } : h));
+    if ((config.habitsRev || 0) >= 4) return false;
+    let hs = config.habits.filter((h) => h.id !== "h-phone" && h.id !== "h-move").map((h) => (h.id === "h-wake" ? { ...h, name: "Up by 4:30, no snooze" } : h));
     const after = (id, h) => { if (hs.some((x) => x.id === h.id)) return; const i = hs.findIndex((x) => x.id === id) + 1; hs = [...hs.slice(0, i), h, ...hs.slice(i)]; };
     after("h-wake", { id: "h-gym", name: "Go to the gym" });
     after("h-gym", { id: "h-focus1", name: "At least one focus block" });
-    config = { ...config, habits: hs, habitsRev: 3 };
+    config = { ...config, habits: hs, habitsRev: 4 };
     return true;
   }
 
