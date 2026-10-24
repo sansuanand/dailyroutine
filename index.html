@@ -183,6 +183,10 @@ textarea.field:focus { border-color: var(--accent); }
 .qa summary { cursor: pointer; font-weight: 500; }
 .qa details p { margin: 6px 0 0; color: var(--muted); }
 .step { display: grid; gap: 8px; }
+.step-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.mic { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 4px 12px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+.mic:hover { border-color: var(--muted); }
+.mic.on { background: var(--bad); border-color: var(--bad); color: var(--surface); }
 .step-h { font-family: var(--mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .exhibit { overflow-x: auto; }
 .exhibit table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
@@ -839,16 +843,58 @@ select.field { width: auto; padding: 4px 2px; background: var(--surface); }
     } catch (e) { caseErr = errText(e, "Couldn't grade the case. Try again."); }
     caseBusy = ""; renderAll();
   }
+  // ---------- dictation (browser speech-to-text) ----------
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let rec = null, recKey = "";
+  function setDictNote(t) { const n = $("#dictnote"); if (n) { n.textContent = t; n.hidden = !t; } }
+  function stopDictation() { if (rec) rec.stop(); }
+  function dictate(key) {
+    if (rec) { const same = recKey === key; rec.stop(); if (same) return; }
+    const ta = document.getElementById("case-" + key);
+    if (!SR || !ta) return;
+    const r = new SR();
+    r.lang = navigator.language || "en-US"; r.continuous = true; r.interimResults = true;
+    const base = ta.value.trim() ? ta.value.replace(/\s*$/, " ") : "";
+    let heard = "";
+    r.onresult = (e) => {
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const t = e.results[i][0].transcript;
+        if (e.results[i].isFinal) heard += t.trim() + " "; else interim += t;
+      }
+      ta.value = base + heard + interim;
+      day().case[key] = ta.value; saveDay();
+    };
+    r.onerror = (e) => {
+      setDictNote(e.error === "not-allowed" || e.error === "service-not-allowed" || e.error === "audio-capture"
+        ? "The microphone is blocked on this page. Tap the mic on your phone's keyboard to dictate instead."
+        : e.error === "no-speech" ? "Didn't catch anything. Tap Speak and try again." : "Dictation stopped (" + e.error + "). Tap Speak to try again.");
+    };
+    r.onend = () => { if (rec === r) { rec = null; recKey = ""; } ta.value = ta.value.trimEnd(); day().case[key] = ta.value; saveDay(0); renderMics(); };
+    try { r.start(); rec = r; recKey = key; setDictNote(""); }
+    catch { setDictNote("Couldn't start the microphone. Tap the mic on your phone's keyboard to dictate instead."); }
+    renderMics();
+  }
+  function renderMics() {
+    document.querySelectorAll(".mic").forEach((b) => {
+      const on = recKey === b.dataset.key;
+      b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on));
+      b.textContent = on ? "■ Stop" : "🎤 Speak";
+    });
+  }
   function caseField(label, key, ph, rows) {
     const ta = el("textarea", { className: "field", id: "case-" + key, placeholder: ph, rows: rows || 4, on: { input: (e) => { day().case[key] = e.target.value; saveDay(); } } });
     ta.value = day().case[key] || "";
-    return el("label", { className: "step", htmlFor: "case-" + key }, [el("span", { className: "step-h", text: label }), ta]);
+    const head = el("div", { className: "step-row" }, [el("label", { className: "step-h", htmlFor: "case-" + key, text: label }),
+      SR ? el("button", { className: "mic", type: "button", "data-key": key, "aria-pressed": "false", "aria-label": "Speak your answer: " + label, text: "🎤 Speak", on: { click: () => dictate(key) } }) : null]);
+    return el("div", { className: "step" }, [head, ta]);
   }
   function listBlock(title, items) { return items.length ? el("div", {}, [el("h3", { text: title }), el("ul", {}, items.map((t) => el("li", { text: t })))]) : null; }
   function renderCase() {
     const c = day().case, key = today + "|" + (c ? c.title + (c.feedback ? "|fb" : "") : "none") + "|" + caseBusy + "|" + caseErr;
     if (key === caseKey) { if (c) ["framework", "math", "rec"].forEach((k) => { const n = document.getElementById("case-" + k); if (n) setVal(n, c[k] || ""); }); return; }
     caseKey = key;
+    stopDictation();
     const box = $("#casebox"); box.textContent = "";
     if (!c) {
       const slot = caseSlot(today);
@@ -860,6 +906,8 @@ select.field { width: auto; padding: 4px 2px; background: var(--surface); }
         el("div", { className: "case-title", text: c.title }), el("p", { className: "case-prompt", text: c.prompt })]));
       if (c.clarifying.length) box.append(el("div", { className: "step" }, [el("span", { className: "step-h", text: "1 · Clarify — ask first, then open" }),
         el("div", { className: "qa" }, c.clarifying.map((x) => el("details", {}, [el("summary", { text: x.q }), el("p", { text: x.a })])))]));
+      box.append(el("div", { className: "hint", text: SR ? "Tap 🎤 Speak to answer out loud, like the real interview. Tap again to stop." : "To answer out loud, tap the mic on your phone's keyboard in any box below." }));
+      box.append(el("div", { className: "alert", id: "dictnote", hidden: true }));
       box.append(caseField("2 · Structure — your framework", "framework", "Buckets, and the questions under each…", 5));
       if (c.exhibit || c.mathQuestion) {
         const kids = [el("span", { className: "step-h", text: "3 · Crunch" })];
